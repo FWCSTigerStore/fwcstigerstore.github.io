@@ -1,0 +1,127 @@
+#school-items{
+    background-color: greenyellow;
+    display: inline-block;
+    height: 500px;
+    width: 500px;
+    
+    overflow: hidden;
+
+
+}
+#snack-items{
+    background-color: orange;
+    display: inline-block;
+    height: 500px;
+    width: 500px;
+    
+    overflow: hidden;
+  
+}
+#raffle-items{
+    background-color: lightblue;
+    display: inline-block;
+    height: 500px;
+    width: 500px;
+
+    overflow: hidden;
+    position: 500px 500px;
+}
+
+#store{
+    text-align: center;
+}
+
+#cart{
+    text-align: center;
+    display: grid;
+    
+}
+th {
+    border-bottom: 1px solid black;
+}
+
+#login{
+    text-align: center;
+    font-size: 25px;
+    background-color: rgba(205, 205, 205, 0.722);
+    width: 450px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+
+    
+    
+}
+
+#name {
+    width: 300px;
+    margin-bottom: 1em;
+}
+
+#grade{
+    margin-bottom: 1em;
+}
+
+#login-google{
+   
+    
+    width: 250px;
+    height: auto;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    margin-left: -40px;
+    display: inline-block;
+    vertical-align: middle;
+    
+   
+}
+
+#enter-store{
+    height: 30px;
+    width: 100px;
+    font-size: 15px;
+    margin-bottom: 1em;
+    margin-top: 1em;
+}
+
+
+#login-title {
+    margin-bottom: 0em;
+}
+
+#review-order{
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+}
+
+#submit-order{
+    height: 50px;
+    width: 150px;
+    font-size: 20px;
+    
+}
+
+#google-signin{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 33%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    text-align: center;
+}
+
+.item-section{
+    border-radius: 25px;
+}
+
+li:not(:first-of-type) {
+    margin-top: 1em;
+}
+
+li:not(:last-of-type) {
+    margin-bottom: 1em;
+}

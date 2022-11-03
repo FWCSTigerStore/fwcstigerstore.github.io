@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiger Store Homepage</title>
+</head>
+<body>
+    
+    <h1 id="title">Hello! This is the Tiger Store!</h1>
+    <p>This website is used as a store where you can get items using your tiger bucks</p>
+    <h3>Please note this only for FWCS Students</h3>
+    <p>When you login, you give us the ability to view, edit, and delete spreadsheets. We also have access to your contact(Your full name and your email)</p>
+    <p>Upon hitting the login button this website will read data from a specified spreadsheet and match what you entered the whats in the spreadsheet, then the website gets the number of tiger bucks you have.</p>
+    <p>When you submit your order, the website sets a cell's value in the spreadsheet to update how much tiger bucks you have</p>
+   <p>This app helps teachers by simplifing the subtraction of bought items, and it helps students by making it easier to buy items.</p>
+    <p>This app doesn't store any user's data, this app only asks you to sign in to google so your order is saved and the number of tiger bucks matches what you actually have</p>
+   <p>Enter the shop by logging in with the button below</p>
+    <button id="shopBtn">Shop</button>
+    <br>
+    <br>
+    <label>Please note this website needs access to your google sheets to view and edit a certain spreadsheet</label>
+    <label>If you want to view our Privacy Policy click the button below</label>
+    <br>
+    <button id="privacyBtn">Privacy Policy</button>
+    <script>
+        
+        //Domcontetntloaded
+        document.addEventListener("DOMContentLoaded", function() {
+           //Increase shop button opacity slowly start at 0 end at 1
+              let shopBtn = document.getElementById("shopBtn");
+                shopBtn.style.opacity = 0;
+                let opacity = 0;
+                let interval = setInterval(function() {
+                    if (opacity >= 1) {
+                        clearInterval(interval);
+                    }
+                    shopBtn.style.opacity = opacity;
+                    opacity += opacity * 0.1 || 0.1;
+                }, 20);
+
+                //Increase privacy button opacity slowly start at 0 end at 1
+                let privacyBtn = document.getElementById("privacyBtn");
+                privacyBtn.style.opacity = 0;
+                let opacity2 = 0;
+                let interval2 = setInterval(function() {
+                    if (opacity2 >= 1) {
+                        clearInterval(interval2);
+                    }
+                    privacyBtn.style.opacity = opacity2;
+                    opacity2 += opacity2 * 0.1 || 0.1;
+                }, 20);
+              
+            
+           
+            //Add event listener
+            shopBtn.addEventListener("click", function() {
+                //Redirect to the store
+                window.location.href = "store.html";
+            });
+
+            
+            //Add click event to privacyBtn
+            privacyBtn.addEventListener('click', ()=>{
+                //Redirect to privacy.html
+                window.location.href = "privacy.html"
+            })
+        });
+      //Enlarge privacyBtn on hover
+        document.getElementById('privacyBtn').addEventListener('mouseover', ()=>{
+            //change color of button
+            document.getElementById('privacyBtn').style.backgroundColor = 'black'
+            //change color of text
+            document.getElementById('privacyBtn').style.color = 'white'
+            document.getElementById('privacyBtn').style.transform = 'scale(1.2)'
+            document.getElementById('privacyBtn').style.transition = 'all 0.5s ease'
+        })
+        //Shrink privacyBtn on mouseout
+        document.getElementById('privacyBtn').addEventListener('mouseout', ()=>{
+            document.getElementById('privacyBtn').style.transform = 'scale(1)'
+            //reset css
+            document.getElementById('privacyBtn').style.backgroundColor = 'white'
+            document.getElementById('privacyBtn').style.color = 'black'
+        })
+        
+        //Animate shop  button on hover
+        document.getElementById("shopBtn").addEventListener("mouseover", function() {
+            document.getElementById("shopBtn").style.backgroundColor = "rgb(0, 0, 0)";
+            document.getElementById("shopBtn").style.color = "rgb(255, 255, 255)";
+        });
+        //Reset css of shop button on mouseout
+        document.getElementById("shopBtn").addEventListener("mouseout", function() {
+            document.getElementById("shopBtn").style.backgroundColor = "rgb(255, 255, 255)";
+            document.getElementById("shopBtn").style.color = "rgb(0, 0, 0)";
+        });
+       //Enlarge shop button on hover
+        document.getElementById("shopBtn").addEventListener("mouseover", function() {
+            document.getElementById("shopBtn").style.transform = "scale(1.2)";
+            document.getElementById('shopBtn').style.transition = 'all 0.5s ease'
+        });
+        //Reset css of shop button on mouseout
+        document.getElementById("shopBtn").addEventListener("mouseout", function() {
+            document.getElementById("shopBtn").style.transform = "scale(1)";
+        });
+       
+        //Create a spinning square that spins on mouseover
+
+        
+       
+
+        
+        
+    </script>
+</body>
+</html
