@@ -392,6 +392,7 @@ async function peopleAPI(){
     return connections;
 }
 
+
 items.forEach((item) => {
   
     item.addEventListener('click', () => {
