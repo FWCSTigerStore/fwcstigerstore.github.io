@@ -340,6 +340,7 @@ async function createAccount(){
 }
 
 async function enterStore(){
+    print(gradeColumn + studentRow)
     numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
     if(numOfTigerBucks == undefined){
         alert("Please make sure you entered the correct grade and try again!")
