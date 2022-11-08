@@ -83,7 +83,7 @@ function handleAuthClick() {
         label.id="logged-in"
         document.getElementById('google-signin').remove()
         document.getElementById('school-info').style.visibility = 'visible';
-       
+        checkIfCompletedLogin()
         
     };
     
