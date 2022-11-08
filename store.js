@@ -333,10 +333,10 @@ enterBtn.addEventListener('click', async () => {
 })
 
 async function createAccount(){
-    let numOfAccounts = await getIntValue(storeSheetID, accountsSheetName, "H1")
+    let numOfAccounts = await getIntValue(storeSheetID, accountSheetName, "H1")
     let accountNumber = numOfAccounts + 1
-    await updateValues(storeSheetID, accountsSheetName, "A" + (accountNumber), [[studentName, studentGrade, halftimeFacilitator, studentRow, gradeColumn]])
-    await updateValues(storeSheetID, accountsSheetName, "H1", [[accountNumber]])
+    await updateValues(storeSheetID, accountSheetName, "A" + (accountNumber), [[studentName, studentGrade, halftimeFacilitator, studentRow, gradeColumn]])
+    await updateValues(storeSheetID, accountSheetName, "H1", [[accountNumber]])
 }
 
 async function enterStore(){
