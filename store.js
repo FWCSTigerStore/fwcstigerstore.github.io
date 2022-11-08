@@ -328,7 +328,7 @@ enterBtn.addEventListener('click', async () => {
     
 
     
-    displayItemPrices()
+    
     alert("Welcome " + studentName + " to the Tiger Store! You are in " + studentGrade + "th grade and have " + numOfTigerBucks + " tiger bucks" )
 })
 
@@ -352,6 +352,7 @@ async function enterStore(){
     maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
     numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
     itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
+    displayItemPrices()
     store.style.opacity = 0;
     store.style.visibility = 'visible';
     //fade in store startin at 0 end at 1
