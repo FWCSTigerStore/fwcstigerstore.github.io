@@ -311,7 +311,7 @@ enterBtn.addEventListener('click', async () => {
         gradeColumn = "C"
     }
     createAccount()
-    enterStore()
+    
     const login = document.getElementById('login');
     //fade out login startin at 1 end at 0
     let loginDivInterval = setInterval(() => {
@@ -321,18 +321,7 @@ enterBtn.addEventListener('click', async () => {
             clearInterval(loginDivInterval);
             login.style.display = "none";
             login.remove()
-            store.style.opacity = 0;
-            store.style.visibility = 'visible';
-            //fade in store startin at 0 end at 1
-            let storeDivOpacity = 0
-            let storeDivInterval = setInterval(() => {
-                store.style.opacity = storeDivOpacity
-                storeDivOpacity += 0.05
-                if(storeDivOpacity >= 1){
-                    clearInterval(storeDivInterval)
-                }
-            }
-            , 50)
+            enterStore()
         }
     }, 50);
 
@@ -363,6 +352,18 @@ async function enterStore(){
     maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
     numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
     itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
+    store.style.opacity = 0;
+    store.style.visibility = 'visible';
+    //fade in store startin at 0 end at 1
+    let storeDivOpacity = 0
+    let storeDivInterval = setInterval(() => {
+        store.style.opacity = storeDivOpacity
+        storeDivOpacity += 0.05
+        if(storeDivOpacity >= 1){
+            clearInterval(storeDivInterval)
+        }
+    }
+    , 50)
 }
 
 function displayItemPrices(){
