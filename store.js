@@ -88,13 +88,14 @@ function handleAuthClick() {
             document.getElementById('school-info').style.visibility = 'visible';
             checkIfCompletedLogin()
         }else{
-            let accountIndex = accountNames.indexOf(studentName)       
+            let accountIndex = accountNames.indexOf(studentName) + 1     
             studentGrade = await getValue(storeSheetID, accountSheetName, "B" + accountIndex);
             halftimeFacilitator = await getValue(storeSheetID, accountSheetName, "C" + accountIndex);
             order.orderName = studentName
             order.orderHalftime = halftimeFacilitator
             studentRow = await getValue(storeSheetID, accountSheetName, "D" + accountIndex);
             gradeColumn = await getValue(storeSheetID, accountSheetName, "E" + accountIndex);
+            numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
             enterStore()
         }
     };
@@ -310,26 +311,14 @@ enterBtn.addEventListener('click', async () => {
     {
         gradeColumn = "C"
     }
+    numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
+    if(numOfTigerBucks == undefined){
+        alert("Please make sure you entered the correct grade and try again!")
+        return;
+    }
     createAccount()
     
-    const login = document.getElementById('login');
-    //fade out login startin at 1 end at 0
-    let loginDivInterval = setInterval(() => {
-        if (login.style.opacity > 0) {
-            login.style.opacity -= 0.05;
-        } else {
-            clearInterval(loginDivInterval);
-            login.style.display = "none";
-            login.remove()
-            enterStore()
-        }
-    }, 50);
-
-    
-
-    
-    
-    alert("Welcome " + studentName + " to the Tiger Store! You are in " + studentGrade + "th grade and have " + numOfTigerBucks + " tiger bucks" )
+    enterStore()
 })
 
 async function createAccount(){
@@ -341,11 +330,7 @@ async function createAccount(){
 
 async function enterStore(){
     console.log(gradeColumn + studentRow)
-    numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
-    if(numOfTigerBucks == undefined){
-        alert("Please make sure you entered the correct grade and try again!")
-        return;
-    }
+    
     
     bucksCountlbl.textContent = `${numOfTigerBucks} Tiger Bucks`
     maxRaffles = await getIntValue(storeSheetID, pricesSheetName, "F2")
@@ -354,18 +339,32 @@ async function enterStore(){
     numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
     itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
     displayItemPrices()
-    store.style.opacity = 0;
-    store.style.visibility = 'visible';
-    //fade in store startin at 0 end at 1
-    let storeDivOpacity = 0
-    let storeDivInterval = setInterval(() => {
-        store.style.opacity = storeDivOpacity
-        storeDivOpacity += 0.05
-        if(storeDivOpacity >= 1){
-            clearInterval(storeDivInterval)
+    const login = document.getElementById('login');
+    //fade out login startin at 1 end at 0
+    let loginDivInterval = setInterval(() => {
+        if (login.style.opacity > 0) {
+            login.style.opacity -= 0.05;
+        } else {
+            clearInterval(loginDivInterval);
+            login.style.display = "none";
+            login.remove()
+            store.style.opacity = 0;
+            store.style.visibility = 'visible';
+            //fade in store startin at 0 end at 1
+            let storeDivOpacity = 0
+            let storeDivInterval = setInterval(() => {
+                store.style.opacity = storeDivOpacity
+                storeDivOpacity += 0.05
+                if(storeDivOpacity >= 1){
+                    clearInterval(storeDivInterval)
+                }
+            }
+            , 50)
         }
-    }
-    , 50)
+    }, 50);
+    alert("Welcome " + studentName + " to the Tiger Store! You are in " + studentGrade + "th grade and have " + numOfTigerBucks + " tiger bucks" )
+
+    
 }
 
 function displayItemPrices(){
