@@ -89,12 +89,12 @@ function handleAuthClick() {
             checkIfCompletedLogin()
         }else{
             let accountIndex = accountNames.indexOf(studentName)       
-            studentGrade = await getValue(storeSheetID, accountSheetName, "B" + accountIndex, 0);
-            halftimeFacilitator = await getValue(storeSheetID, accountSheetName, "C" + accountIndex, 0);
+            studentGrade = await getValue(storeSheetID, accountSheetName, "B" + accountIndex);
+            halftimeFacilitator = await getValue(storeSheetID, accountSheetName, "C" + accountIndex);
             order.orderName = studentName
             order.orderHalftime = halftimeFacilitator
-            studentRow = await getValue(storeSheetID, accountSheetName, "D" + accountIndex, 0);
-            gradeColumn = await getValue(storeSheetID, accountSheetName, "E" + accountIndex, 0);
+            studentRow = await getValue(storeSheetID, accountSheetName, "D" + accountIndex);
+            gradeColumn = await getValue(storeSheetID, accountSheetName, "E" + accountIndex);
             enterStore()
         }
     };
