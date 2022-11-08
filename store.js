@@ -362,7 +362,7 @@ async function peopleAPI(){
         'resourceName': 'people/me',
       'requestMask.includeField': 'person.names'
       });
-      const connections = response.result.names[0].givenName;
+      const connections = response.result.names[0].fullName;
      // if (!connections || connections.length == 0) {
         //document.getElementById('content').innerText = 'No connections found.';
        // console.log("NO CONNECTION FOUND")
