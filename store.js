@@ -294,7 +294,7 @@ function updateValues(spreadsheetId, sheetName, range, _values, callback) {
 
 
 enterBtn.addEventListener('click', async () => {
-    studentName = peopleAPI()
+    studentName = await peopleAPI()
     studentGrade = gradeInput.value
     halftimeFacilitator = halftimeInput.value
     order.orderName = studentName
