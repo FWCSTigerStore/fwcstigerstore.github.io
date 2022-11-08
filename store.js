@@ -355,9 +355,16 @@ enterBtn.addEventListener('click', async () => {
     
 
     
-    
+    displayItemPrices()
     alert("Welcome " + studentName + " to the Tiger Store! You are in " + studentGrade + "th grade and have " + numOfTigerBucks + " tiger bucks" )
 })
+
+function displayItemPrices(){
+    items.forEach((item) => {
+        itemPrice = itemPrices[item.id]
+        item.textContent += itemPrice + " Tiger Bucks"
+    })
+}
 
 async function peopleAPI(){
     let pName;
