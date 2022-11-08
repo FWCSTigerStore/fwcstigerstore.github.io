@@ -100,7 +100,6 @@ function handleAuthClick() {
 
 const loginGoogleBtn = document.getElementById('login-google');
 const gradeInput = document.getElementById('grade');
-const nameInput = document.getElementById('name');
 const enterBtn = document.getElementById('enter-store');
 const halftimeInput = document.getElementById('halftime');
 const reviewOrderBtn = document.getElementById('review-order')
@@ -112,7 +111,6 @@ const storeSheetID = "1G_CxHb0M-ZenzjliF0oGT2n9hGV99ZiByaJsFCd3Qq0"
 const pricesSheetName = "Shop Prices"
 const bankSheetName = "Bank"
 const ordersSheetName = "Orders"
-let validName = false
 let gradeColumn
 let studentName
 let studentGrade
@@ -139,12 +137,9 @@ loginGoogleBtn.addEventListener('click', () => {
     handleAuthClick()
 });
 
-accountInfoBtn.addEventListener('click', () => {
-    alert("Email: tigerbuckstore@gmail.com\nPassword: tigerStore!23")
-})
 
 function checkIfCompletedLogin(){
-    if(validName && gLoggedIn){
+    if(gLoggedIn){
         document.getElementById('enter-store').style.visibility = 'visible';
     } else{
         document.getElementById('enter-store').style.visibility = 'hidden';
@@ -166,18 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         , 50)
 })
-
-
-nameInput.addEventListener('change', () => {
-    if(nameInput.value != ""){
-        
-        validName = true
-    } else{
-        validName = false
-    }
-    checkIfCompletedLogin()
-        
-});
 
 async function getValue(spreadsheetId, sheetName, range){
     try{
