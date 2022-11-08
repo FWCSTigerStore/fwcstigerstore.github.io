@@ -89,12 +89,12 @@ function handleAuthClick() {
             checkIfCompletedLogin()
         }else{
             let accountIndex = accountNames.indexOf(studentName)       
-            studentGrade = accountNames[accountIndex][1]
-            halftimeFacilitator = accountNames[accountIndex][2]
+            studentGrade = await getValue(storeSheetID, accountSheetName, "B" + accountIndex, 0);
+            halftimeFacilitator = await getValue(storeSheetID, accountSheetName, "C" + accountIndex, 0);
             order.orderName = studentName
             order.orderHalftime = halftimeFacilitator
-            studentRow = accountNames[accountIndex][3]
-            gradeColumn = accountNames[accountIndex][4]
+            studentRow = await getValue(storeSheetID, accountSheetName, "D" + accountIndex, 0);
+            gradeColumn = await getValue(storeSheetID, accountSheetName, "E" + accountIndex, 0);
             enterStore()
         }
     };
@@ -247,7 +247,7 @@ async function getValueKeyPair(spreadsheetId, sheetName, range, key, value){
         Array
     });
     const valueArray = allData.map((someArray) => {
-        return someArray[value]; //My primary key is on the index 2 in the email 
+        return someArray[value]; 
         Array
     });
     let keyValueArray = []
