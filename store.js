@@ -82,7 +82,7 @@ function handleAuthClick() {
         label.textContent = "Successfully logged into Google!"
         label.id="logged-in"
         document.getElementById('google-signin').remove()
-        let accountNames = await getValueRow(storeSheetID, accountSheetName, "A1:D", 1);
+        let accountNames = await getValueRow(storeSheetID, accountSheetName, "A1:D", 0);
         studentName = await peopleAPI()
         if(!accountNames.includes(studentName)){
             document.getElementById('school-info').style.visibility = 'visible';
@@ -335,7 +335,7 @@ enterBtn.addEventListener('click', async () => {
 async function createAccount(){
     let numOfAccounts = await getIntValue(storeSheetID, accountSheetName, "H1")
     let accountNumber = numOfAccounts + 1
-    await updateValues(storeSheetID, accountSheetName, "A" + (accountNumber), [[studentName, studentGrade, halftimeFacilitator, studentRow, gradeColumn]])
+    await updateValues(storeSheetID, accountSheetName, "A" + (accountNumber + 1), [[studentName, studentGrade, halftimeFacilitator, studentRow, gradeColumn]])
     await updateValues(storeSheetID, accountSheetName, "H1", [[accountNumber]])
 }
 
