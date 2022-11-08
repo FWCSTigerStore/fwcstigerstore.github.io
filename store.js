@@ -82,9 +82,21 @@ function handleAuthClick() {
         label.textContent = "Successfully logged into Google!"
         label.id="logged-in"
         document.getElementById('google-signin').remove()
-        document.getElementById('school-info').style.visibility = 'visible';
-        checkIfCompletedLogin()
-        
+        let accountNames = await getValueRow(storeSheetID, accountSheetName, "A1:D", 1);
+        studentName = await peopleAPI()
+        if(!accountNames.includes(studentName)){
+            document.getElementById('school-info').style.visibility = 'visible';
+            checkIfCompletedLogin()
+        }else{
+            let accountIndex = accountNames.indexOf(studentName)       
+            studentGrade = accountNames[accountIndex][1]
+            halftimeFacilitator = accountNames[accountIndex][2]
+            order.orderName = studentName
+            order.orderHalftime = halftimeFacilitator
+            studentRow = accountNames[accountIndex][3]
+            gradeColumn = accountNames[accountIndex][4]
+            enterStore()
+        }
     };
     
     if (gapi.client.getToken() === null) {
@@ -111,6 +123,7 @@ const storeSheetID = "1G_CxHb0M-ZenzjliF0oGT2n9hGV99ZiByaJsFCd3Qq0"
 const pricesSheetName = "Shop Prices"
 const bankSheetName = "Bank"
 const ordersSheetName = "Orders"
+const accountSheetName = "Accounts"
 let gradeColumn
 let studentName
 let studentGrade
@@ -277,7 +290,6 @@ function updateValues(spreadsheetId, sheetName, range, _values, callback) {
 
 
 enterBtn.addEventListener('click', async () => {
-    studentName = await peopleAPI()
     studentGrade = gradeInput.value
     halftimeFacilitator = halftimeInput.value
     order.orderName = studentName
@@ -298,19 +310,8 @@ enterBtn.addEventListener('click', async () => {
     {
         gradeColumn = "C"
     }
-    numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
-    if(numOfTigerBucks == undefined){
-        alert("Please make sure you entered the correct grade and try again!")
-        return;
-    }
-    
-    bucksCountlbl.textContent = `${numOfTigerBucks} Tiger Bucks`
-    maxRaffles = await getIntValue(storeSheetID, pricesSheetName, "F2")
-    maxSnacks = await getIntValue(storeSheetID, pricesSheetName, "F3")
-    maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
-    numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
-    itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
-    console.log(itemPrices)
+    createAccount()
+    enterStore()
     const login = document.getElementById('login');
     //fade out login startin at 1 end at 0
     let loginDivInterval = setInterval(() => {
@@ -341,6 +342,28 @@ enterBtn.addEventListener('click', async () => {
     displayItemPrices()
     alert("Welcome " + studentName + " to the Tiger Store! You are in " + studentGrade + "th grade and have " + numOfTigerBucks + " tiger bucks" )
 })
+
+async function createAccount(){
+    let numOfAccounts = await getIntValue(storeSheetID, accountsSheetName, "H1")
+    let accountNumber = numOfAccounts + 1
+    await updateValues(storeSheetID, accountsSheetName, "A" + (accountNumber), [[studentName, studentGrade, halftimeFacilitator, studentRow, gradeColumn]])
+
+}
+
+async function enterStore(){
+    numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
+    if(numOfTigerBucks == undefined){
+        alert("Please make sure you entered the correct grade and try again!")
+        return;
+    }
+    
+    bucksCountlbl.textContent = `${numOfTigerBucks} Tiger Bucks`
+    maxRaffles = await getIntValue(storeSheetID, pricesSheetName, "F2")
+    maxSnacks = await getIntValue(storeSheetID, pricesSheetName, "F3")
+    maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
+    numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
+    itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
+}
 
 function displayItemPrices(){
     items.forEach((item) => {
