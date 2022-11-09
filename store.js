@@ -377,7 +377,7 @@ async function enterStore(){
 
 function displayItemPrices(){
     items.forEach((item) => {
-        itemPrice = itemPrices[item.id]
+        itemPrice = itemPrices[item.querySelector('.addToCart').id]
         item.querySelector('.itemPrice').textContent = itemPrice + " Tiger Bucks"
     })
 }
@@ -416,9 +416,9 @@ async function peopleAPI(){
 }
 
 
-items.forEach((item) => {
-  
-    item.querySelector('.addToCart').addEventListener('click', () => {
+items.forEach((itemO) => {
+    let item = itemO.querySelector('.addToCart')
+    item.addEventListener('click', () => {
         let itemType = item.dataset.type;
         console.log(snacksBought)
         if(itemType == "school"){
