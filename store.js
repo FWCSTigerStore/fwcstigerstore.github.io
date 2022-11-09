@@ -378,7 +378,7 @@ async function enterStore(){
 function displayItemPrices(){
     items.forEach((item) => {
         itemPrice = itemPrices[item.id]
-        item.getElementById('itemPrice').textContent = itemPrice + " Tiger Bucks"
+        item.querySelector('.itemPrice').textContent = itemPrice + " Tiger Bucks"
     })
 }
 
@@ -418,7 +418,7 @@ async function peopleAPI(){
 
 items.forEach((item) => {
   
-    item.getElementById('addToCart').addEventListener('click', () => {
+    item.querySelector('.addToCart').addEventListener('click', () => {
         let itemType = item.dataset.type;
         console.log(snacksBought)
         if(itemType == "school"){
