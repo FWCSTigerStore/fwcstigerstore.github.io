@@ -83,7 +83,12 @@ function handleAuthClick() {
         label.id="logged-in"
         document.getElementById('google-signin').remove()
         let accountNames = await getValueRow(storeSheetID, accountSheetName, "A1:D", 0);
+        let orderNames = await getValueRow(storeSheetID, orderSheetName, "A1:B", 1);
         studentName = await peopleAPI()
+        if(orderNames.includes(studentName)){
+            alert("You have already placed an order!")
+            window.location.href = "https://fwcstigerstore.github.io/"
+        }
         if(!accountNames.includes(studentName)){
             document.getElementById('school-info').style.visibility = 'visible';
             checkIfCompletedLogin()
@@ -139,6 +144,7 @@ let rafflesBought = 0
 let snacksBought = 0
 let schoolBought = 0
 let order = {
+    timestamp: new Date().getMonth + "/" + new Date().getDay() + "/" + new Date().getYear() + " " + new Date().getHours + ":" + new Date().getMinutes,
     orderName: "",
     orderHalftime: "",
     orderItem1: "",
@@ -456,7 +462,7 @@ reviewOrderBtn.addEventListener('click', () => {
 submitOrderBtn.addEventListener('click', async () => {
     alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
-    await updateValues(storeSheetID, ordersSheetName, "A" + (numOfOrders + 1), [[order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
+    await updateValues(storeSheetID, ordersSheetName, "A" + (numOfOrders + 1), [order.timestamp,order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[numOfOrders]])
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
