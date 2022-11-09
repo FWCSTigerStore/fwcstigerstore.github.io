@@ -427,7 +427,7 @@ items.forEach((itemO) => {
                 return
             }
             schoolBought++
-        } else if(itemType == "snack"){
+        } else if(itemType == "snacks"){
             if(snacksBought >= maxSnacks){
                 alert("You have bought the max number of snacks!")
                 return
