@@ -1,32 +1,45 @@
-#school-items{
-    background-color: greenyellow;
+.shopItem{
+    width: 200px;
+    height: 220px;
+    border: 3px solid #000;
+    border-radius: 5px;
     display: inline-block;
-    height: 500px;
-    width: 500px;
+}
+
+.itemImage{
+    width: 125px;
+    height: 125px;
+    margin-left: 15%;
+    margin-top: 5%;
     
-    overflow: hidden;
-
-
 }
-#snack-items{
-    background-color: orange;
-    display: inline-block;
-    height: 500px;
-    width: 500px;
+
+.addToCart{
+    width: 100px;
+    height: 30px;
+    background-color: rgb(2, 145, 255);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    border-radius: 5px;
+    /*Center to center of div*/
+    margin-left: 25%;
+    margin-right: 50%;
+    position: relative;
+    right:    0;
+    bottom:   0;
     
-    overflow: hidden;
-  
-}
-#raffle-items{
-    background-color: lightblue;
-    display: inline-block;
-    height: 500px;
-    width: 500px;
-
-    overflow: hidden;
-    position: 500px 500px;
 }
 
+.itemName{
+    
+    margin-left: 35%;
+    margin-right: 50%;
+}
+.itemPrice{
+    
+    margin-left: 25%;
+    
+}
 #store{
     text-align: center;
 }

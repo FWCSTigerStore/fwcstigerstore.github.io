@@ -27,7 +27,7 @@ const reviewOrderBtn = document.getElementById('review-order')
 const submitOrderBtn = document.getElementById('submit-order')
 const bucksCountlbl = document.getElementById('bucks-count')
 const accountInfoBtn = document.getElementById('accountInfo')
-const items = document.querySelectorAll('.item')
+const items = document.querySelectorAll('.shopItem')
 const storeSheetID = "1yoKUHyAPqR_TgdibqaH2FsT6nzq6KpvRkjZXR8pYue0"
 const pricesSheetName = "Shop Prices"
 const bankSheetName = "Bank"
@@ -378,7 +378,7 @@ async function enterStore(){
 function displayItemPrices(){
     items.forEach((item) => {
         itemPrice = itemPrices[item.id]
-        item.textContent += itemPrice + " Tiger Bucks"
+        item.getElementById('itemPrice').textContent = itemPrice + " Tiger Bucks"
     })
 }
 
@@ -418,7 +418,7 @@ async function peopleAPI(){
 
 items.forEach((item) => {
   
-    item.addEventListener('click', () => {
+    item.getElementById('addToCart').addEventListener('click', () => {
         let itemType = item.dataset.type;
         console.log(snacksBought)
         if(itemType == "school"){
