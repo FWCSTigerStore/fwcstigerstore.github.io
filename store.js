@@ -7,6 +7,7 @@
 const CLIENT_ID = '121005583930-rg8vb71qq25rfevvmi3krh3lr0o3clau.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyCI-AEx3ZdOx9W03_iKRMcJCRJl4AB-Qd0';
 
+
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = ["https://sheets.googleapis.com/$discovery/rest?version=v4",'https://people.googleapis.com/$discovery/rest?version=v1'];
 
@@ -18,6 +19,43 @@ let tokenClient;
 let gapiInited = false;
 let gisInited = false;
 let gLoggedIn = false;
+const loginGoogleBtn = document.getElementById('login-google');
+const gradeInput = document.getElementById('grade');
+const enterBtn = document.getElementById('enter-store');
+const halftimeInput = document.getElementById('halftime');
+const reviewOrderBtn = document.getElementById('review-order')
+const submitOrderBtn = document.getElementById('submit-order')
+const bucksCountlbl = document.getElementById('bucks-count')
+const accountInfoBtn = document.getElementById('accountInfo')
+const items = document.querySelectorAll('.item')
+const storeSheetID = "1yoKUHyAPqR_TgdibqaH2FsT6nzq6KpvRkjZXR8pYue0"
+const pricesSheetName = "Shop Prices"
+const bankSheetName = "Bank"
+const ordersSheetName = "Orders"
+const accountSheetName = "Accounts"
+let gradeColumn
+let studentName
+let studentGrade
+let halftimeFacilitator
+let numOfTigerBucks
+let studentRow
+let maxRaffles
+let maxSnacks
+let maxSchool
+let itemPrices
+let rafflesBought = 0
+let snacksBought = 0
+let schoolBought = 0
+let order = {
+    timestamp: new Date().getMonth + "/" + new Date().getDay() + "/" + new Date().getYear() + " " + new Date().getHours + ":" + new Date().getMinutes,
+    orderName: "",
+    orderHalftime: "",
+    orderItem1: "",
+    orderItem2: "",
+    orderItem3: ""
+}
+let numOfItemsBought = 0
+let numOfOrders
 const store = document.getElementById('store');
 
 document.getElementById('login-google').style.visibility = 'hidden';
@@ -83,7 +121,7 @@ function handleAuthClick() {
         label.id="logged-in"
         document.getElementById('google-signin').remove()
         let accountNames = await getValueRow(storeSheetID, accountSheetName, "A1:D", 0);
-        let orderNames = await getValueRow(storeSheetID, orderSheetName, "A1:B", 1);
+        let orderNames = await getValueRow(storeSheetID, ordersSheetName, "A1:B", 1);
         studentName = await peopleAPI()
         if(orderNames.includes(studentName)){
             alert("You have already placed an order!")
@@ -116,43 +154,7 @@ function handleAuthClick() {
     }
 }
 
-const loginGoogleBtn = document.getElementById('login-google');
-const gradeInput = document.getElementById('grade');
-const enterBtn = document.getElementById('enter-store');
-const halftimeInput = document.getElementById('halftime');
-const reviewOrderBtn = document.getElementById('review-order')
-const submitOrderBtn = document.getElementById('submit-order')
-const bucksCountlbl = document.getElementById('bucks-count')
-const accountInfoBtn = document.getElementById('accountInfo')
-const items = document.querySelectorAll('.item')
-const storeSheetID = "1yoKUHyAPqR_TgdibqaH2FsT6nzq6KpvRkjZXR8pYue0"
-const pricesSheetName = "Shop Prices"
-const bankSheetName = "Bank"
-const ordersSheetName = "Orders"
-const accountSheetName = "Accounts"
-let gradeColumn
-let studentName
-let studentGrade
-let halftimeFacilitator
-let numOfTigerBucks
-let studentRow
-let maxRaffles
-let maxSnacks
-let maxSchool
-let itemPrices
-let rafflesBought = 0
-let snacksBought = 0
-let schoolBought = 0
-let order = {
-    timestamp: new Date().getMonth + "/" + new Date().getDay() + "/" + new Date().getYear() + " " + new Date().getHours + ":" + new Date().getMinutes,
-    orderName: "",
-    orderHalftime: "",
-    orderItem1: "",
-    orderItem2: "",
-    orderItem3: ""
-}
-let numOfItemsBought = 0
-let numOfOrders
+
 loginGoogleBtn.addEventListener('click', () => {
     handleAuthClick()
 });
@@ -462,7 +464,7 @@ reviewOrderBtn.addEventListener('click', () => {
 submitOrderBtn.addEventListener('click', async () => {
     alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
-    await updateValues(storeSheetID, ordersSheetName, "A" + (numOfOrders + 1), [order.timestamp,order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
+    await updateValues(storeSheetID, ordersSheetName, "A" + (numOfOrders + 1), [[order.timestamp,order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[numOfOrders]])
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
