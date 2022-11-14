@@ -9,18 +9,21 @@
 .shopItem{
     border: 3px solid #000;
     border-radius: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
    
 }
 
 .itemImage{
    
-    margin-left: 15%;
-    margin-top: 5%;
+    
+    margin-top: 2%;
     display: block;
     max-width:125px;
     max-height:125px;
-    width: auto;
-    height: auto;
+    width: fit-content;
+    height: fit-content;
+    
     
 }
 
@@ -141,4 +144,12 @@ li:not(:first-of-type) {
 
 li:not(:last-of-type) {
     margin-bottom: 1em;
+}
+.imageDiv{
+    width: 250px;
+    height: 125px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -28,7 +28,7 @@ const submitOrderBtn = document.getElementById('submit-order')
 const bucksCountlbl = document.getElementById('bucks-count')
 const accountInfoBtn = document.getElementById('accountInfo')
 const items = document.querySelectorAll('.shopItem')
-const storeSheetID = "1yoKUHyAPqR_TgdibqaH2FsT6nzq6KpvRkjZXR8pYue0"
+const storeSheetID = "1G_CxHb0M-ZenzjliF0oGT2n9hGV99ZiByaJsFCd3Qq0"//"1yoKUHyAPqR_TgdibqaH2FsT6nzq6KpvRkjZXR8pYue0"
 const pricesSheetName = "Shop Prices"
 const bankSheetName = "Bank"
 const ordersSheetName = "Orders"
@@ -131,6 +131,7 @@ function handleAuthClick() {
             document.getElementById('school-info').style.visibility = 'visible';
             checkIfCompletedLogin()
         }else{
+            alert("Logging In, please wait...")
             let accountIndex = accountNames.indexOf(studentName) + 1     
             studentGrade = await getValue(storeSheetID, accountSheetName, "B" + accountIndex);
             halftimeFacilitator = await getValue(storeSheetID, accountSheetName, "C" + accountIndex);
@@ -462,7 +463,7 @@ reviewOrderBtn.addEventListener('click', () => {
 
 
 submitOrderBtn.addEventListener('click', async () => {
-    alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
+   // alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
     await updateValues(storeSheetID, ordersSheetName, "A" + (numOfOrders + 1), [[order.timestamp,order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[numOfOrders]])
