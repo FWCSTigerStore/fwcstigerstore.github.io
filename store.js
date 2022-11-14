@@ -309,7 +309,8 @@ enterBtn.addEventListener('click', async () => {
     if(studentGrade == 6)
     {
         gradeColumn = "K"
-        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "J1:K100", 1);
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "J1:K100", 0);
+        console.log(flattenedData)
         if(!flattenedData.includes(studentName)){
             alert("Please make sure you entered your name correctly and try again!")
             return;
@@ -317,7 +318,8 @@ enterBtn.addEventListener('click', async () => {
         studentRow = flattenedData.indexOf(studentName) + 1;
     } else if(studentGrade == 7){
         gradeColumn = "G"
-        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "F1:G100", 1);
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "F1:G100", 0);
+        console.log(flattenedData)
         if(!flattenedData.includes(studentName)){
             alert("Please make sure you entered your name correctly and try again!")
             return;
@@ -326,7 +328,8 @@ enterBtn.addEventListener('click', async () => {
     } else
     {
         gradeColumn = "C"
-        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "B1:C100", 1);
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "B1:C100", 0);
+        console.log(flattenedData)
         if(!flattenedData.includes(studentName)){
             alert("Please make sure you entered your name correctly and try again!")
             return;
