@@ -304,21 +304,34 @@ enterBtn.addEventListener('click', async () => {
     halftimeFacilitator = halftimeInput.value
     order.orderName = studentName
     order.orderHalftime = halftimeFacilitator
-    let flattenedData = await getValueRow(storeSheetID, bankSheetName, "A1:K78", 1);
-    if(!flattenedData.includes(studentName)){
-        alert("Please make sure you entered your name correctly and try again!")
-        return;
-    }
-    studentRow = flattenedData.indexOf(studentName) + 1;
+    
     
     if(studentGrade == 6)
     {
         gradeColumn = "K"
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "J1:K100", 1);
+        if(!flattenedData.includes(studentName)){
+            alert("Please make sure you entered your name correctly and try again!")
+            return;
+        }
+        studentRow = flattenedData.indexOf(studentName) + 1;
     } else if(studentGrade == 7){
         gradeColumn = "G"
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "F1:G100", 1);
+        if(!flattenedData.includes(studentName)){
+            alert("Please make sure you entered your name correctly and try again!")
+            return;
+        }
+        studentRow = flattenedData.indexOf(studentName) + 1;
     } else
     {
         gradeColumn = "C"
+        let flattenedData = await getValueRow(storeSheetID, bankSheetName, "B1:C100", 1);
+        if(!flattenedData.includes(studentName)){
+            alert("Please make sure you entered your name correctly and try again!")
+            return;
+        }
+        studentRow = flattenedData.indexOf(studentName) + 1;
     }
     numOfTigerBucks = await getValue(storeSheetID, bankSheetName, gradeColumn + studentRow)
     if(numOfTigerBucks == undefined){
