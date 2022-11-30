@@ -361,7 +361,7 @@ async function enterStore(){
     maxRaffles = await getIntValue(storeSheetID, pricesSheetName, "F2")
     maxSnacks = await getIntValue(storeSheetID, pricesSheetName, "F3")
     maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
-    numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
+    
     itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
     displayItemPrices()
     const login = document.getElementById('login');
@@ -479,6 +479,7 @@ reviewOrderBtn.addEventListener('click', () => {
 
 
 submitOrderBtn.addEventListener('click', async () => {
+    numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
     //alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
     console.log(order)
