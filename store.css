@@ -54,7 +54,18 @@
 #cart{
     text-align: center;
     display: grid;
-    
+    background-color: lightgrey;
+    width: 400px;
+    height: 500px;
+    /*Center div Vertically*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    align-items: baseline;
+
+   
 }
 th {
     border-bottom: 1px solid black;
@@ -121,6 +132,7 @@ th {
     height: 50px;
     width: 150px;
     font-size: 20px;
+    margin-left: 30%;
     
 }
 
@@ -152,4 +164,10 @@ li:not(:last-of-type) {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#shop-cart{
+    position: relative;
+    top: -80px;
+    line-height: normal;
 }
