@@ -46,8 +46,36 @@ let itemPrices
 let rafflesBought = 0
 let snacksBought = 0
 let schoolBought = 0
+const date = new Date();
+const fullDate = date.toLocaleDateString();
+let currentTime = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+currentTime = militaryToStandardTime(currentTime)
+function militaryToStandardTime(mTime) {
+    let time = mTime.split(':'); // convert to array
+
+    // fetch
+    var hours = Number(time[0]);
+    var minutes = Number(time[1]);
+    var seconds = Number(time[2]);
+
+    // calculate
+    var timeValue;
+
+    if (hours > 0 && hours <= 12) {
+    timeValue= "" + hours;
+    } else if (hours > 12) {
+    timeValue= "" + (hours - 12);
+    } else if (hours == 0) {
+    timeValue= "12";
+    }
+    
+    timeValue += (minutes < 10) ? ":0" + minutes : ":" + minutes;  // get minutes
+    timeValue += (seconds < 10) ? ":0" + seconds : ":" + seconds;  // get seconds
+    timeValue += (hours >= 12) ? " P.M." : " A.M.";  // get AM/PM
+    return timeValue
+}
 let order = {
-    timestamp: new Date().getMonth() + "/" + new Date().getDay() + "/" + new Date().getYear() + " " + new Date().getHours() + ":" + new Date().getMinutes(),
+    timestamp: fullDate + " " + currentTime,
     orderName: "",
     orderHalftime: "",
     orderItem1: "",
