@@ -78,9 +78,7 @@ let order = {
     timestamp: fullDate + " " + currentTime,
     orderName: "",
     orderHalftime: "",
-    orderItem1: "",
-    orderItem2: "",
-    orderItem3: ""
+    orderItems: []
 }
 let numOfItemsBought = 0
 let numOfOrders
@@ -492,7 +490,7 @@ items.forEach((itemO) => {
         }
         numOfTigerBucks -= itemPrice
         numOfItemsBought++
-        order["orderItem" + numOfItemsBought] = item.id
+        order.orderItems.push(item.id)
         bucksCountlbl.textContent = `${numOfTigerBucks} Tiger Bucks`
         alert("You bought " + item.id + " for " + itemPrice + " tiger bucks!")
 
@@ -511,7 +509,7 @@ submitOrderBtn.addEventListener('click', async () => {
     //alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
     console.log(order)
-    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, order.orderItem1, order.orderItem2, order.orderItem3]])
+    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, order.orderItems]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
@@ -521,34 +519,16 @@ submitOrderBtn.addEventListener('click', async () => {
 
 function loadShopCart(){
     const table = document.getElementById('shop-cart')
-    if(order.orderItem1 != ""){
+    order.orderItems.forEach(item => {
+       
+    
         let newEntry = document.createElement('tr')
         let orderItemName = document.createElement('td')
-        orderItemName.textContent = order.orderItem1
+        orderItemName.textContent = item
         let orderItemCost = document.createElement('td')
-        orderItemCost.textContent = itemPrices[order.orderItem1]
+        orderItemCost.textContent = itemPrices[item]
         table.appendChild(newEntry)
         newEntry.appendChild(orderItemName)
         newEntry.appendChild(orderItemCost)
-    } 
-    if(order.orderItem2 != ""){
-        let newEntry = document.createElement('tr')
-        let orderItemName = document.createElement('td')
-        orderItemName.textContent = order.orderItem2
-        let orderItemCost = document.createElement('td')
-        orderItemCost.textContent = itemPrices[order.orderItem2]
-        table.appendChild(newEntry)
-        newEntry.appendChild(orderItemName)
-        newEntry.appendChild(orderItemCost)
-    }
-    if(order.orderItem3 != ""){
-        let newEntry = document.createElement('tr')
-        let orderItemName = document.createElement('td')
-        orderItemName.textContent = order.orderItem3
-        let orderItemCost = document.createElement('td')
-        orderItemCost.textContent = itemPrices[order.orderItem3]
-        table.appendChild(newEntry)
-        newEntry.appendChild(orderItemName)
-        newEntry.appendChild(orderItemCost)
-    }
+    });
 }
