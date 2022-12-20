@@ -503,13 +503,36 @@ reviewOrderBtn.addEventListener('click', () => {
     loadShopCart()
 })
 
+function countInArray(array, what) {
+    var count = 0;
+    for (var i = 0; i < array.length; i++) {
+        if (array[i] === what) {
+            count++;
+        }
+    }
+    return count;
+}
 
 submitOrderBtn.addEventListener('click', async () => {
     numOfOrders = await getIntValue(storeSheetID, ordersSheetName, "H1")
     //alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
     console.log(order)
-    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, ...order.orderItems]])
+    let orderItemsChecked = []
+    let orderedItems = []
+    order.orderItems.forEach(item => {
+       //Check if item is already in orderItemsChecked
+         if(orderItemsChecked.includes(item)){
+            return;
+         }
+         let numOfItem = countInArray(order.orderItems, item)
+
+        orderedItems.push(item + " x" + numOfItem)
+        orderItemsChecked.push(item)
+
+    })
+
+    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, ...orderedItems]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
@@ -532,3 +555,4 @@ function loadShopCart(){
         newEntry.appendChild(orderItemCost)
     });
 }
+
