@@ -509,7 +509,7 @@ submitOrderBtn.addEventListener('click', async () => {
     //alert(`Order Summary: \n Name: ${order.orderName} \n Halftime Facilitator: ${order.orderHalftime} \n Item #1: ${order.orderItem1} \n Item #2: ${order.orderItem2} \n Item #3: ${order.orderItem3}`)
     numOfOrders++;
     console.log(order)
-    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, order.orderItems]])
+    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, ...order.orderItems]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
