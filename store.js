@@ -28,8 +28,9 @@ const submitOrderBtn = document.getElementById('submit-order')
 const bucksCountlbl = document.getElementById('bucks-count')
 const accountInfoBtn = document.getElementById('accountInfo')
 const items = document.querySelectorAll('.shopItem')
-const storeSheetID = "1FzgpF7zWxAEZqDGVi-ynbrXbktBhPUmNN8b04nzSJlE"//TEST - "1FzgpF7zWxAEZqDGVi-ynbrXbktBhPUmNN8b04nzSJlE" ACTUAL - "18yoT-4MWOHTAPmJFExgfdtyWYvFKOWq_xajtvgoQJ5I"
+const storeSheetID = "18yoT-4MWOHTAPmJFExgfdtyWYvFKOWq_xajtvgoQJ5I"//TEST - "1FzgpF7zWxAEZqDGVi-ynbrXbktBhPUmNN8b04nzSJlE" ACTUAL - "18yoT-4MWOHTAPmJFExgfdtyWYvFKOWq_xajtvgoQJ5I"
 const pricesSheetName = "Shop Prices"
+const suppliesSheetName = "Shop Supplies"
 const bankSheetName = "Bank"
 const ordersSheetName = "Orders"
 const accountSheetName = "Accounts"
@@ -43,6 +44,7 @@ let maxRaffles
 let maxSnacks
 let maxSchool
 let itemPrices
+let itemSupplies
 let rafflesBought = 0
 let snacksBought = 0
 let schoolBought = 0
@@ -389,6 +391,7 @@ async function enterStore(){
     maxSchool = await getIntValue(storeSheetID, pricesSheetName, "F4")
     
     itemPrices = await getValueKeyPair(storeSheetID, pricesSheetName, "A2:B", 0, 1);
+    itemSupplies = await getValueKeyPair(storeSheetID, suppliesSheetName, "A2:B50", 0, 1);
     displayItemPrices()
     const login = document.getElementById('login');
     //fade out login startin at 1 end at 0
@@ -488,6 +491,12 @@ items.forEach((itemO) => {
             alert("You only have " + numOfTigerBucks + " tiger bucks and you need " + itemPrice + " tiger bucks") 
             return
         }
+        let itemSupply = itemSupplies[item.id]
+        if(parseInt(itemSupply) <= 0){
+            alert("Sorry, we are out of " + item.id)
+            return
+        }
+        itemSupplies[item.id] -= 1
         numOfTigerBucks -= itemPrice
         numOfItemsBought++
         order.orderItems.push(item.id)
@@ -520,7 +529,13 @@ submitOrderBtn.addEventListener('click', async () => {
     console.log(order)
     let orderItemsChecked = []
     let orderedItems = []
-    order.orderItems.forEach(item => {
+    order.orderItems.forEach(async (item) => {
+        //Get Item Names
+        
+        let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
+        let row = itemNames.indexOf(item) + 1
+        
+        await updateValues(storeSheetID, suppliesSheetName, "B" + row, [[itemSupplies[item]]])
        //Check if item is already in orderItemsChecked
          if(orderItemsChecked.includes(item)){
             return;
@@ -531,9 +546,11 @@ submitOrderBtn.addEventListener('click', async () => {
         orderItemsChecked.push(item)
 
     })
-
+    
+    
     await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, ...orderedItems]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
+    
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
     location.reload()
 
