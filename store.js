@@ -529,6 +529,7 @@ submitOrderBtn.addEventListener('click', async () => {
     console.log(order)
     let orderItemsChecked = []
     let orderedItems = []
+    let itemsOrdered = ""
     order.orderItems.forEach(async (item) => {
         //Get Item Names
         
@@ -543,12 +544,18 @@ submitOrderBtn.addEventListener('click', async () => {
          let numOfItem = countInArray(order.orderItems, item)
 
         orderedItems.push(item + " x" + numOfItem)
+        if(itemsOrdered == ""){
+            itemsOrdered += item + " x" + numOfItem
+        }
+        else {
+            itemsOrdered += ", " + item + " x" + numOfItem
+        }
         orderItemsChecked.push(item)
 
     })
     
     
-    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, ...orderedItems]])
+    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, itemsOrdered]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
     
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
