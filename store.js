@@ -467,6 +467,16 @@ items.forEach((itemO) => {
     item.addEventListener('click', () => {
         let itemType = item.dataset.type;
         console.log(snacksBought)
+        let itemPrice = itemPrices[item.id]
+        if(parseInt(itemPrice) > parseInt(numOfTigerBucks)){
+            alert("You only have " + numOfTigerBucks + " tiger bucks and you need " + itemPrice + " tiger bucks") 
+            return
+        }
+        let itemSupply = itemSupplies[item.id]
+        if(parseInt(itemSupply) <= 0){
+            alert("Sorry, we are out of " + item.id)
+            return
+        }
         if(itemType == "school"){
             if(schoolBought >= maxSchool){
                 alert("You have bought the max number of school items!")
@@ -486,16 +496,8 @@ items.forEach((itemO) => {
             }
             rafflesBought++
         }
-        let itemPrice = itemPrices[item.id]
-        if(parseInt(itemPrice) > parseInt(numOfTigerBucks)){
-            alert("You only have " + numOfTigerBucks + " tiger bucks and you need " + itemPrice + " tiger bucks") 
-            return
-        }
-        let itemSupply = itemSupplies[item.id]
-        if(parseInt(itemSupply) <= 0){
-            alert("Sorry, we are out of " + item.id)
-            return
-        }
+        
+        
         itemSupplies[item.id] -= 1
         numOfTigerBucks -= itemPrice
         numOfItemsBought++
@@ -554,12 +556,13 @@ submitOrderBtn.addEventListener('click', async () => {
 
     })
     
+    console.log(itemsOrdered)
     
     await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, itemsOrdered]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
     
     await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
-    location.reload()
+    //location.reload()
 
 })
 
