@@ -533,7 +533,7 @@ submitOrderBtn.addEventListener('click', async () => {
     let orderedItems = []
     let itemsOrdered = ""
     var bar = new Promise((resolve, reject) => {
-        order.orderItems.forEach(async (item) => {
+        order.orderItems.forEach(async (item, index, array) => {
             //Get Item Names
             
             let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
@@ -553,6 +553,9 @@ submitOrderBtn.addEventListener('click', async () => {
             itemsOrdered += ", " + item + " x" + numOfItem;
             console.log(itemsOrdered, "ITEMS ORDERED LOOP")
             orderItemsChecked.push(item)
+            if(index === array.length -1 ){
+                resolve()
+            }
     
         })
     })
