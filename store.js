@@ -534,7 +534,7 @@ submitOrderBtn.addEventListener('click', async () => {
     let itemsOrdered = ""
     order.orderItems.forEach(async (item) => {
         //Get Item Names
-        console.log(item, "ITEM")
+        
         let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
         let row = itemNames.indexOf(item) + 1
         
@@ -545,13 +545,12 @@ submitOrderBtn.addEventListener('click', async () => {
          }
          let numOfItem = countInArray(order.orderItems, item)
 
-        orderedItems.push(item + " x" + numOfItem)
-        if(itemsOrdered == ""){
-            itemsOrdered += item + " x" + numOfItem
-        }
-        else {
-            itemsOrdered += ", " + item + " x" + numOfItem
-        }
+       // orderedItems.push(item + " x" + numOfItem)
+       console.log(item, "ITEM")
+       console.log(typeof item, "ITEM TYPE")
+       console.log(typeof numOfItem, "NUM TYPE")
+        itemsOrdered += ", " + item + " x" + numOfItem
+        
         orderItemsChecked.push(item)
 
     })
