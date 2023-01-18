@@ -534,7 +534,7 @@ submitOrderBtn.addEventListener('click', async () => {
     let itemsOrdered = ""
     order.orderItems.forEach(async (item) => {
         //Get Item Names
-        
+        console.log(item, "ITEM")
         let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
         let row = itemNames.indexOf(item) + 1
         
@@ -556,7 +556,7 @@ submitOrderBtn.addEventListener('click', async () => {
 
     })
     
-    console.log(itemsOrdered)
+    console.log(itemsOrdered, "ITEMS ORDERED")
     
     await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, itemsOrdered]])
     await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
