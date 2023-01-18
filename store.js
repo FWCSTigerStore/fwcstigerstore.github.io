@@ -549,8 +549,8 @@ submitOrderBtn.addEventListener('click', async () => {
        console.log(item, "ITEM")
        console.log(typeof item, "ITEM TYPE")
        console.log(typeof numOfItem, "NUM TYPE")
-        itemsOrdered += ", " + item + " x" + numOfItem
-        
+        itemsOrdered += ", " + item + " x" + numOfItem;
+        console.log(itemsOrdered, "ITEMS ORDERED LOOP")
         orderItemsChecked.push(item)
 
     })
