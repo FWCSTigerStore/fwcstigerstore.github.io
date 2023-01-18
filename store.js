@@ -532,36 +532,43 @@ submitOrderBtn.addEventListener('click', async () => {
     let orderItemsChecked = []
     let orderedItems = []
     let itemsOrdered = ""
-    order.orderItems.forEach(async (item) => {
-        //Get Item Names
-        
-        let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
-        let row = itemNames.indexOf(item) + 1
-        
-        await updateValues(storeSheetID, suppliesSheetName, "B" + row, [[itemSupplies[item]]])
-       //Check if item is already in orderItemsChecked
-         if(orderItemsChecked.includes(item)){
-            return;
-         }
-         let numOfItem = countInArray(order.orderItems, item)
-
-       // orderedItems.push(item + " x" + numOfItem)
-       console.log(item, "ITEM")
-       console.log(typeof item, "ITEM TYPE")
-       console.log(typeof numOfItem, "NUM TYPE")
-        itemsOrdered += ", " + item + " x" + numOfItem;
-        console.log(itemsOrdered, "ITEMS ORDERED LOOP")
-        orderItemsChecked.push(item)
-
+    var bar = new Promise((resolve, reject) => {
+        order.orderItems.forEach(async (item) => {
+            //Get Item Names
+            
+            let itemNames = await getValueRow(storeSheetID, suppliesSheetName, "A1:A100", 0);
+            let row = itemNames.indexOf(item) + 1
+            
+            await updateValues(storeSheetID, suppliesSheetName, "B" + row, [[itemSupplies[item]]])
+           //Check if item is already in orderItemsChecked
+             if(orderItemsChecked.includes(item)){
+                return;
+             }
+             let numOfItem = countInArray(order.orderItems, item)
+    
+           // orderedItems.push(item + " x" + numOfItem)
+           console.log(item, "ITEM")
+           console.log(typeof item, "ITEM TYPE")
+           console.log(typeof numOfItem, "NUM TYPE")
+            itemsOrdered += ", " + item + " x" + numOfItem;
+            console.log(itemsOrdered, "ITEMS ORDERED LOOP")
+            orderItemsChecked.push(item)
+    
+        })
     })
+    bar.then(async () => {
+
     
-    console.log(itemsOrdered, "ITEMS ORDERED")
+
     
-    await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, itemsOrdered]])
-    await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
-    
-    await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
-    //location.reload()
+        console.log(itemsOrdered, "ITEMS ORDERED")
+        
+        await updateValues(storeSheetID, ordersSheetName, "A" + (parseInt(numOfOrders) + 1), [[order.timestamp,order.orderName, order.orderHalftime, itemsOrdered]])
+        await updateValues(storeSheetID, ordersSheetName, "H1" , [[parseInt(numOfOrders)]])
+        
+        await updateValues(storeSheetID, bankSheetName, gradeColumn + studentRow, [[numOfTigerBucks]])
+        location.reload()
+    })
 
 })
 
