@@ -472,6 +472,20 @@ items.forEach((itemO) => {
             alert("You only have " + numOfTigerBucks + " tiger bucks and you need " + itemPrice + " tiger bucks") 
             return
         }
+        //Check if trust card
+        if(item.id == "Trust Card"){
+            order.orderItems = []
+            order.orderItems.push(item.id)
+            numOfItemsBought = 1
+            numOfTigerBucks -= itemPrice
+            bucksCountlbl.textContent = `${numOfTigerBucks} Tiger Bucks`
+            alert("You bought " + item.id + " for " + itemPrice + " tiger bucks!")
+            document.getElementById('store').remove()
+            document.getElementById('cart').style.visibility = 'visible';
+            loadShopCart()
+            return
+        }
+
         let itemSupply = itemSupplies[item.id]
         if(parseInt(itemSupply) <= 0){
             alert("Sorry, we are out of " + item.id)
@@ -550,7 +564,12 @@ submitOrderBtn.addEventListener('click', async () => {
            console.log(item, "ITEM")
            console.log(typeof item, "ITEM TYPE")
            console.log(typeof numOfItem, "NUM TYPE")
-            itemsOrdered += ", " + item + " x" + numOfItem;
+           //Check if item is first item
+            if(itemsOrdered == ""){
+                itemsOrdered += item + " x" + numOfItem;
+            }else{
+                itemsOrdered += ", " + item + " x" + numOfItem;
+            }
             console.log(itemsOrdered, "ITEMS ORDERED LOOP")
             orderItemsChecked.push(item)
             if(index === array.length -1 ){
