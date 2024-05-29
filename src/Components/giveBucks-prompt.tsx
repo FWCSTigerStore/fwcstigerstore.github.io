@@ -36,7 +36,7 @@ function GiveTigerBucksPrompt({reference, id, isScanning}: GiveTigerBucksPromptP
     
 
     return (
-       <dialog ref={reference}>
+       <dialog ref={reference} className="GiveBucksPrompt">
          <img src={X} alt="" className="XMark" onClick={() => [
               setAmount(0),
               reference.current?.close()

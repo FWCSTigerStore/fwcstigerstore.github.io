@@ -32,7 +32,7 @@ function QRCodePrompt({reference}: QRCodePromptProps){
       };
 
     return (
-       <dialog ref={reference}>
+       <dialog ref={reference} className="QRPrompt">
             <img src={X} alt="" className="XMark" onClick={() => [
               setQRCodeValue(""),
               reference.current?.close()
@@ -47,7 +47,7 @@ function QRCodePrompt({reference}: QRCodePromptProps){
            
             <div className="qrcode__download" ref={qrCodeRef}>
                 <div className="qrcode__image">
-                <QRCode value={qrCodeValue} size={300} />
+                <QRCode value={qrCodeValue} size={100} />
                 </div>
             </div>
               <br />

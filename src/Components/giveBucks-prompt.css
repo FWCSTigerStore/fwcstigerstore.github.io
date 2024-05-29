@@ -36,3 +36,11 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .GiveBucksPrompt {
+      width: 200px;
+      height: 300px;
+    }
+  }
