@@ -9,6 +9,15 @@
    
   }
 
+  #reader{
+    display: flex;
+    flex-direction: column;
+    height: 80%;
+    width: 80%;
+    background-color: black;
+    border-radius: 5%;
+  }
+
   .center {
     display: flex;
     justify-content: center;
@@ -38,9 +47,5 @@
   }
 
   @media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    .GiveBucksPrompt {
-      width: 200px;
-      height: 300px;
-    }
+  
   }

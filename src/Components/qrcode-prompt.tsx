@@ -14,8 +14,10 @@ type QRCodePromptProps = {
 
 function QRCodePrompt({reference}: QRCodePromptProps){
     const [qrCodeValue, setQRCodeValue] = useState("");
-    const [qrIsVisible, setQRIsVisible] = useState(false);
+    const [name, setName] = useState("");
+    const [id, setId] = useState("");
     const qrCodeRef = useRef(null);
+
 
     const downloadQRCode = () => {
         htmlToImage
@@ -37,11 +39,17 @@ function QRCodePrompt({reference}: QRCodePromptProps){
               setQRCodeValue(""),
               reference.current?.close()
             ]} />
-            <h2>Enter Student ID</h2>
-            <input type="text" onChange={(e) => setQRCodeValue(e.target.value)} />
+            <h2>Enter Student Info</h2>
+            <label htmlFor="">Name: </label>
+            <input type="text" onChange={(e) =>{
+                setName(e.target.value)
+              setQRCodeValue(`${e.target.value}|${id}`)}} placeholder="Name"/>
             <br />
             <br />
-            <button onClick={() => setQRIsVisible(true)}>Generate QR Code</button>
+            <label htmlFor="">Id: </label>
+
+            <input type="text" onChange={(e) => {setId(e.target.value)
+              setQRCodeValue(`${name}|${e.target.value}`)}} placeholder="Id"/>
             <br />
             <br />
            

@@ -21,10 +21,12 @@ function App() {
   const removeBucksDialog = useRef<HTMLDialogElement>(null)
 
   const [studentId, setStudentId] = useState(0)
+  const [studentName, setStudentName] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [teacherName, setTeacherName] = useState('')
   const [password, setPassword] = useState('')
   const [isScanning, setIsScanning] = useState(true)
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
 
   useEffect(() => {
     async function login(){
@@ -48,6 +50,7 @@ function App() {
         
           if(checkID.status === 200){
             setLoggedIn(true)
+            setTeacherName(name)
           } else {
             localStorage.removeItem('tigerStoreLogin')
           }
@@ -88,38 +91,50 @@ function App() {
       <br />
       
       <button onClick={() => {
-
+          setIsScanning(true)
           removeBucksDialog.current?.showModal()
-          const html5QrCode = new Html5Qrcode("reader");
-
+          //Wait two seconds
+          setTimeout(() => {
+            
+            const html5QrCode = new Html5Qrcode("reader");
+  
+          
+            function onScanSuccess(decodeText, decodeResult) {
+              if (decodeText === null) {
+                  return;
+              }
+              console.log(`Scan result: ${decodeText}`, decodeResult);
+              html5QrCode.stop();
+              
+              setStudentId(decodeText.split('|')[1])
+              setStudentName(decodeText.split('|')[0])
+              setIsScanning(false);
+              console.log(`Scan result: ${decodeText}`, decodeResult);
+          
+              
+              
+            } 
         
-          function onScanSuccess(decodeText, decodeResult) {
-            if (decodeText === null) {
-                return;
-            }
-            console.log(`Scan result: ${decodeText}`, decodeResult);
-            html5QrCode.stop();
-            
-            setStudentId(decodeText)
-            setIsScanning(false);
-            console.log(`Scan result: ${decodeText}`, decodeResult);
-        
-            
-            
-          } 
-      
-
-      const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-
-
-      // If you want to prefer back camera
-      html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+  
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+  
+  
+  
+        // If you want to prefer back camera
+        html5QrCode.start({ facingMode: "environment" }, config, onScanSuccess);
+           
+  
+          }, 100)
          
-
       }}>Scan QR Code</button>
+      <br />
+      <br />
+      <button onClick={() => {
+        localStorage.removeItem('tigerStoreLogin')
+        setLoggedIn(false)
+      }}>Log Out</button>
       <QRCodePrompt reference={qrCodeDialog} />
-      <GiveTigerBucksPrompt reference={removeBucksDialog} id={studentId} isScanning={isScanning}/>
+      <GiveTigerBucksPrompt reference={removeBucksDialog} id={studentId} isScanning={isScanning} teacherName={teacherName} studentName={studentName}/>
 
     </> : <div className='Login'>
       <h1>Login</h1>
@@ -130,7 +145,8 @@ function App() {
       <input type='password' placeholder='Password' onChange={(e) => {
         setPassword(e.target.value)
       }}/>
-      <button onClick={async () => {
+     {isLoggingIn ?  <div className="center"><div className="loader"></div></div> : <button className="loginBtn" onClick={async () => {
+        setIsLoggingIn(true)
         const checkPassword = await fetch('https://tiger-store-server.onrender.com/password', {
           method: 'POST',
           mode: 'cors',
@@ -146,10 +162,11 @@ function App() {
         }
 
         const id = await checkPassword.text();
-
+        setIsLoggingIn(false)
+        setTeacherName(teacherName)
         setLoggedIn(true)
         localStorage.setItem('tigerStoreLogin', JSON.stringify({id: id, name: teacherName}))
-      }}>Login</button>
+      }}>Login</button>}
       </div>}
     </>
   )

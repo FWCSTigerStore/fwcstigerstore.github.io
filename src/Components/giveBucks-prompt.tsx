@@ -7,10 +7,12 @@ type GiveTigerBucksPromptProps = {
     reference: RefObject<HTMLDialogElement>;
     id: number;
     isScanning: boolean;
+    teacherName: string;
+    studentName: string;
 
 }
 
-function GiveTigerBucksPrompt({reference, id, isScanning}: GiveTigerBucksPromptProps){
+function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentName}: GiveTigerBucksPromptProps){
     const [amount, setAmount] = useState(0);
     const [isGiving, setIsGiving] = useState(false);
 
@@ -23,7 +25,7 @@ function GiveTigerBucksPrompt({reference, id, isScanning}: GiveTigerBucksPromptP
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({id: id, tigerBucks: amount, teacher: "Mr. Smith"}),
+        body: JSON.stringify({id: id, tigerBucks: amount, teacher: teacherName}),
         // body: '{"url":"https://www.theguardian.com/world/2020/oct/24/thousands-join-poland-protests-against-strict-abortion-laws"}'
       })
       setIsGiving(false);
@@ -43,10 +45,11 @@ function GiveTigerBucksPrompt({reference, id, isScanning}: GiveTigerBucksPromptP
             ]} />
             <h2>Read QR Code</h2>
             
-            { isScanning ? <div id="reader">
-            </div>
+            { isScanning ?
+            <div className="center"><div id="reader">
+            </div></div> 
             : 
-            <><h3>Enter amount of Tiger Bucks you would like to give to the student:</h3>
+            <><h3>Enter amount of Tiger Bucks you would like to give to {studentName}:</h3>
             <input type="number" onChange={(e) => setAmount(e.target.value)} value={amount}/>
             <br />
             <br />
@@ -55,6 +58,7 @@ function GiveTigerBucksPrompt({reference, id, isScanning}: GiveTigerBucksPromptP
             <div className="center"><div className="loader"></div></div>
             : <button onClick={() => {
                 changeTigerBucks();
+
             }}>Give Tiger Bucks</button>}
             </>}
 
