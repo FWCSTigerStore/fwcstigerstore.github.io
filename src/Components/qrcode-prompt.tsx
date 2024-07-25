@@ -59,7 +59,7 @@ function QRCodePrompt({reference}: QRCodePromptProps){
                 </div>
             </div>
               <br />
-              <button onClick={() => {
+              <button className="actionBtn" onClick={() => {
                   downloadQRCode();
                   
                   

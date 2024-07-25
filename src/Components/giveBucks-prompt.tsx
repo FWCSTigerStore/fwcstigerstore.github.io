@@ -9,10 +9,11 @@ type GiveTigerBucksPromptProps = {
     isScanning: boolean;
     teacherName: string;
     studentName: string;
+    studentTigerBucks: number;
 
 }
 
-function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentName}: GiveTigerBucksPromptProps){
+function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentName, studentTigerBucks}: GiveTigerBucksPromptProps){
     const [amount, setAmount] = useState(0);
     const [isGiving, setIsGiving] = useState(false);
 
@@ -21,7 +22,7 @@ function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentNa
       setIsGiving(true);
       await fetch('https://tiger-store-server.onrender.com/tb', {
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
@@ -49,14 +50,17 @@ function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentNa
             <div className="center"><div id="reader">
             </div></div> 
             : 
-            <><h3>Enter amount of Tiger Bucks you would like to give to {studentName}:</h3>
+            <>
+            <h3>Student: {studentName}</h3>
+            <h3>Tiger Bucks: {studentTigerBucks}</h3>
+            <label htmlFor="">Amount to give (use negative for removing): </label>
             <input type="number" onChange={(e) => setAmount(e.target.value)} value={amount}/>
             <br />
             <br />
 
             { isGiving ? 
             <div className="center"><div className="loader"></div></div>
-            : <button onClick={() => {
+            : <button className="actionBtn" onClick={() => {
                 changeTigerBucks();
 
             }}>Give Tiger Bucks</button>}

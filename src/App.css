@@ -37,9 +37,6 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
-}
 
 .Login{
   display: flex;
@@ -48,7 +45,7 @@
 
   height: 500px;
   width: 500px;
-  background-color: black;
+  background-color: rgb(255, 134, 42);
   border-radius: 5%;
 }
 
@@ -56,15 +53,56 @@
   margin: 15px;
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid gray;
+  border: 1px solid white;
+  background-color: transparent;
+  color: white;
+  
 
 
 }
 
+.Login ::placeholder {
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+.Login ::-ms-input-placeholder { /* Edge 12 -18 */
+  color: white;
+}
+
+.Login input:focus{
+  outline: none;
+}
+
+.Login button{
+  margin: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: #4169E1;
+  color: white;
+}
+
+.actionBtn {
+
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid white;
+  background-color: #4169E1;
+  color: white;
+}
+
+.actionBtn:hover {
+  background-color: #0000FF;
+}
+
+
+
 @media only screen and (max-width: 768px) {
   /* For mobile phones: */
   .Login{
-    width: 300px;
+    width: 80vw;
+    height: 50vh;
   }
 }
 
@@ -91,13 +129,14 @@
 dialog {
   width: 250px;
   height: 300px;
-  background-color: rgba(0, 0, 0, 1);
+  background-color: rgb(255, 134, 42);
+  color: white;
   border: none;
   border-radius: 10px;
   position: fixed;
   top: 0;
   left: 0;
-  padding: 2px;
+
   /* align-items: center; */
   /* justify-content: center;s */
 }
