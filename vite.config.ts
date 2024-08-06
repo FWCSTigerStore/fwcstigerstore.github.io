@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 
+
 const root = resolve(__dirname, 'src')
 const outDir = resolve(__dirname, 'dist')
 
@@ -9,6 +10,11 @@ const outDir = resolve(__dirname, 'dist')
 export default defineConfig({
   plugins: [react()],
   root,
+  resolve: {
+    alias: {
+      "@": resolve(__dirname, "./src"),
+    },
+  },
   base: '/',
   build: {
     outDir,
