@@ -41,6 +41,8 @@ function App() {
   const [isRegistering, setIsRegistering] = useState(false)
 
   useEffect(() => {
+
+
     async function login(){
       //Get local storage
       await isLoggedIn(setLoggedIn)

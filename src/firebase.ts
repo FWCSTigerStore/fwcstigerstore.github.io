@@ -6,12 +6,12 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAGakOpa3iYRNad0Mc1QSbtv4RTPV0Qqow",
-    authDomain: "tigerstore-365021.firebaseapp.com",
-    projectId: "tigerstore-365021",
-    storageBucket: "tigerstore-365021.appspot.com",
-    messagingSenderId: "121005583930",
-    appId: "1:121005583930:web:a80e1271bafe05d67f8f03"
+    apiKey: import.meta.env.VITE_APIKEY,
+    authDomain: import.meta.env.VITE_AUTHDOMAIN,
+    projectId: import.meta.env.VITE_PROJECTID,
+    storageBucket: import.meta.env.VITE_STORAGEBUCKET,
+    messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
+    appId: import.meta.env.VITE_APPID
 };
 
 const app = initializeApp(firebaseConfig);
