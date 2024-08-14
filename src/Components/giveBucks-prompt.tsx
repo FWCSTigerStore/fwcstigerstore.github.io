@@ -2,6 +2,7 @@ import { RefObject, useEffect, useRef, useState } from "react";
 import "./giveBucks-prompt.css";
 
 import X from "../assets/xmark.png";
+import {addTigerBucks} from "../firebase.js";
 
 type GiveTigerBucksPromptProps = {
     reference: RefObject<HTMLDialogElement>;
@@ -20,15 +21,7 @@ function GiveTigerBucksPrompt({reference, id, isScanning, teacherName, studentNa
     async function changeTigerBucks(){
       //https post to remove bucks
       setIsGiving(true);
-      await fetch('https://tiger-store-server.onrender.com/tb', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: JSON.stringify({id: id, tigerBucks: amount, teacher: teacherName}),
-        // body: '{"url":"https://www.theguardian.com/world/2020/oct/24/thousands-join-poland-protests-against-strict-abortion-laws"}'
-      })
+      await addTigerBucks(id, amount, teacherName);
       setIsGiving(false);
       setAmount(0);
       reference.current?.close();

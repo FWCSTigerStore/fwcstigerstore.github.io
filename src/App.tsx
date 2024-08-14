@@ -13,6 +13,7 @@ import { json } from 'stream/consumers';
 import HousesPrompt from './Components/houses-prompt';
 import StudentsPrompt from './Components/students-prompt';
 import { ComboboxDemo } from './Components/combobox';
+import { getTigerBucks, isLoggedIn, login, logout, register } from './firebase';
 
 
 
@@ -28,6 +29,7 @@ function App() {
 
   const [studentId, setStudentId] = useState(0)
   const [studentName, setStudentName] = useState('')
+  const [email, setEmail] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
   const [teacherName, setTeacherName] = useState('')
   const [password, setPassword] = useState('')
@@ -36,33 +38,26 @@ function App() {
   const [studentTigerBucks, setStudentTigerBucks] = useState(0)
   const [houses, setHouses] = useState([])
   const [students, setStudents] = useState([])
+  const [isRegistering, setIsRegistering] = useState(false)
 
   useEffect(() => {
     async function login(){
       //Get local storage
+      await isLoggedIn(setLoggedIn)
       const localData = localStorage.getItem('tigerStoreLogin')
       if(localData){
         const data = JSON.parse(localData)
         //Check if data is valid
         if(data){
         //Check if id is valid
-          const id = data.id
+
           const name = data.name
-          const checkID = await fetch('https://tiger-store-server.onrender.com/login', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            body: JSON.stringify({id: id, name: name})
-          })
+         
         
-          if(checkID.status === 200){
-            setLoggedIn(true)
-            setTeacherName(name)
-          } else {
-            localStorage.removeItem('tigerStoreLogin')
-          }
+
+          setTeacherName(name)
+          
+         
         }
       }
     }
@@ -95,18 +90,9 @@ function App() {
               }
               console.log(`Scan result: ${decodeText}`, decodeResult);
               html5QrCode.stop();
-              const numTigerBucks = await fetch('https://tiger-store-server.onrender.com/getTb', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                  
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                 
-                },
-                body: JSON.stringify({id: decodeText.split('|')[1]})
-              })
+              const numTigerBucks = await getTigerBucks(parseInt(decodeText.split('|')[1]))
               console.log(numTigerBucks);
-              setStudentTigerBucks(parseInt(await numTigerBucks.text()))
+              setStudentTigerBucks(parseInt(await numTigerBucks as string))
               setStudentId(decodeText.split('|')[1])
               setStudentName(decodeText.split('|')[0])
               setIsScanning(false);
@@ -155,18 +141,22 @@ function App() {
         studentsDialog.current?.showModal()
       }}>Give Student Tiger Bucks</button>
       <br /> <br />
-      <button className='actionBtn' onClick={() => {
+      <button className='actionBtn' onClick={async() => {
         localStorage.removeItem('tigerStoreLogin')
+        await logout()
         setLoggedIn(false)
       }}>Log Out</button>
       <QRCodePrompt reference={qrCodeDialog} />
       <StudentsPrompt reference={studentsDialog} teacherName={teacherName}/>
       <GiveTigerBucksPrompt reference={removeBucksDialog} id={studentId} isScanning={isScanning} teacherName={teacherName} studentName={studentName} studentTigerBucks={studentTigerBucks}/>
       <HousesPrompt reference={housesDialog} houses={houses} teacherName={teacherName}/>
-    </> : <div className='Login'>
-      <h1>Login</h1>
+    </> : isRegistering ? <div className='Login'>
+      <h1>Create Account</h1>
       <input type='text' placeholder='Full Name' onChange={(e) => {
         setTeacherName(e.target.value)
+      }}/>
+      <input type='text' placeholder='Email' onChange={(e) => {
+        setEmail(e.target.value)
       }}/>
 
       <input type='password' placeholder='Password' onChange={(e) => {
@@ -174,27 +164,56 @@ function App() {
       }}/>
      {isLoggingIn ?  <div className="center"><div className="loader"></div></div> : <button className="actionBtn" onClick={async () => {
         setIsLoggingIn(true)
-        const checkPassword = await fetch('https://tiger-store-server.onrender.com/password', {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: JSON.stringify({password: password, name: teacherName})
-        })
-
-        if(checkPassword.status !== 200){
-          alert('Incorrect Password')
+        if(password.length < 6){
           setIsLoggingIn(false)
+          alert('Password must be at least 6 characters')
+          return
+        }
+        const checkPassword = await register(email, password)
+        if(!checkPassword){
+          setIsLoggingIn(false)
+          alert('Unable to create account, try again')
           return
         }
 
-        const id = await checkPassword.text();
         setIsLoggingIn(false)
         setTeacherName(teacherName)
         setLoggedIn(true)
-        localStorage.setItem('tigerStoreLogin', JSON.stringify({id: id, name: teacherName}))
+        localStorage.setItem('tigerStoreLogin', JSON.stringify({name: teacherName}))
+      }}>Create Account</button>
+      }
+      <button className='actionBtn' onClick={() =>{
+        setIsRegistering(false)
+      }}>Login</button>
+      </div> :<div className='Login'>
+      <h1>Login</h1>
+      <input type='text' placeholder='Full Name' onChange={(e) => {
+        setTeacherName(e.target.value)
+      }}/>
+      <input type='text' placeholder='Email' onChange={(e) => {
+        setEmail(e.target.value)
+      }}/>
+
+      <input type='password' placeholder='Password' onChange={(e) => {
+        setPassword(e.target.value)
+      }}/>
+     {isLoggingIn ?  <div className="center"><div className="loader"></div></div> : <button className="actionBtn" onClick={async () => {
+        setIsLoggingIn(true)
+        const checkPassword = await login(email, password)
+        if(!checkPassword){
+          setIsLoggingIn(false)
+          alert('Wrong email or password')
+          return
+        }
+
+        setIsLoggingIn(false)
+        setTeacherName(teacherName)
+        setLoggedIn(true)
+        localStorage.setItem('tigerStoreLogin', JSON.stringify({name: teacherName}))
       }}>Login</button>}
+      <button className='actionBtn' onClick={() =>{
+        setIsRegistering(true)
+      }}>Create an Account</button>
       </div>}
     </>
   )

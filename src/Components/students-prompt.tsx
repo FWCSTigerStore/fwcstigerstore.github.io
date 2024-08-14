@@ -7,6 +7,8 @@ import "./students-prompt.css";
 
 
 import X from "../assets/xmark.png";
+import { get } from "http";
+import { addTigerBucks, getStudents } from "@/firebase";
 
 type StudentsPromptProps = {
     reference: RefObject<HTMLDialogElement>;
@@ -38,18 +40,8 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
               if(parseInt(e.target.value) == -1){
                 return
               }
-              const studentsJson = await fetch('https://tiger-store-server.onrender.com/getStudents', {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                  
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                 
-                },
-                body: JSON.stringify({grade: e.target.value})
-      
-              })
-              const students = JSON.parse(await studentsJson.text())
+              const studentsJson = await getStudents(parseInt(e.target.value))
+              const students = JSON.parse(studentsJson as string)
               console.log(students)
               setStudents(students)
 
@@ -62,7 +54,7 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
             <br />
             {selectedGrade != -1 && students.length != 0 ? <>
             <label htmlFor="students">Students: </label>
-            <select multiple name="students" id="students" value={selectedStudent} onChange={(e) => {
+            <select name="students" id="students" value={selectedStudent} onChange={(e) => {
               setSelectedStudent(parseInt(e.target.value))
             }}>
               <option value={-1}>Select Student</option>
@@ -85,15 +77,7 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
             : <button className="actionBtn" onClick={async () => {
 
                   setIsGiving(true);
-                  await fetch('https://tiger-store-server.onrender.com/tb', {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: JSON.stringify({id: students[selectedStudent].id, tigerBucks: amount, teacher: teacherName}),
-                    // body: '{"url":"https://www.theguardian.com/world/2020/oct/24/thousands-join-poland-protests-against-strict-abortion-laws"}'
-                  })
+                  await addTigerBucks(students[selectedStudent].id, amount, teacherName);
                   setIsGiving(false);
                   setAmount(0);
                   setSelectedGrade(-1);
