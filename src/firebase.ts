@@ -6,12 +6,12 @@ import {
 } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_APIKEY,
-    authDomain: import.meta.env.VITE_AUTHDOMAIN,
-    projectId: import.meta.env.VITE_PROJECTID,
-    storageBucket: import.meta.env.VITE_STORAGEBUCKET,
-    messagingSenderId: import.meta.env.VITE_MESSAGINGSENDERID,
-    appId: import.meta.env.VITE_APPID
+    apiKey: "AIzaSyAGakOpa3iYRNad0Mc1QSbtv4RTPV0Qqow",
+    authDomain: "tigerstore-365021.firebaseapp.com",
+    projectId: "tigerstore-365021",
+    storageBucket: "tigerstore-365021.appspot.com",
+    messagingSenderId: "121005583930",
+    appId: "1:121005583930:web:a80e1271bafe05d67f8f03"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -22,7 +22,11 @@ const auth = getAuth(app);
 
 
 export async function addTigerBucks(id: number, amount: number, teacherName:string){
-    const addTigerBucks = httpsCallable(functions, 'addTigerBucks');
+    console.log(id);
+    console.log(amount);
+    console.log(teacherName);
+    const addTigerBucks = httpsCallable(functions, 'addTigerBucks'); 
+    
     return await addTigerBucks({"id": id, "tigerBucks": amount, "teacher": teacherName});
 }
 
@@ -57,11 +61,13 @@ export async function logout(){
     return signOut(auth);
 }
 
-export async function register(email: string, password: string){
+export async function register(email: string, password: string, name: string){
     return setPersistence(auth, browserLocalPersistence).then( async () => {
 
         try {
             await createUserWithEmailAndPassword(auth, email, password);
+            const addTeacherSheet = httpsCallable(functions, 'addTeacherSheet');
+            await addTeacherSheet({"teacher": name});
 
             return true;
         }

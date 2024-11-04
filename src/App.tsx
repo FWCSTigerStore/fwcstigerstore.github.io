@@ -153,7 +153,7 @@ function App() {
       <GiveTigerBucksPrompt reference={removeBucksDialog} id={studentId} isScanning={isScanning} teacherName={teacherName} studentName={studentName} studentTigerBucks={studentTigerBucks}/>
       <HousesPrompt reference={housesDialog} houses={houses} teacherName={teacherName}/>
     </> : isRegistering ? <div className='Login'>
-      <h1>Create Account</h1>
+      <h1 className='createTitle'>Create Account</h1>
       <input type='text' placeholder='Full Name' onChange={(e) => {
         setTeacherName(e.target.value)
       }}/>
@@ -171,7 +171,7 @@ function App() {
           alert('Password must be at least 6 characters')
           return
         }
-        const checkPassword = await register(email, password)
+        const checkPassword = await register(email, password, teacherName)
         if(!checkPassword){
           setIsLoggingIn(false)
           alert('Unable to create account, try again')

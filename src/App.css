@@ -140,3 +140,7 @@ dialog {
   /* align-items: center; */
   /* justify-content: center;s */
 }
+
+.createTitle{
+  margin-bottom: 5px;
+}

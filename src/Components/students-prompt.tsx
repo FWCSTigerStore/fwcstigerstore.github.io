@@ -19,7 +19,7 @@ type StudentsPromptProps = {
 function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
   const [selectedGrade, setSelectedGrade] = useState(-1);
   const [selectedStudent, setSelectedStudent] = useState(-1);
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState<string>("");
   const [isGiving, setIsGiving] = useState(false);
   const [students, setStudents] = useState([]);
 
@@ -27,7 +27,7 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
     return (
        <dialog ref={reference} className="StudentsPrompt">
             <img src={X} alt="" className="XMark" onClick={() => [
-             setAmount(0),
+             setAmount(""),
              setSelectedGrade(-1),
              setSelectedStudent(-1),
              setStudents([]),
@@ -68,7 +68,10 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
             <br /></> : <>
             <h3>Tiger Bucks: {students[selectedStudent].points}</h3>
             <label htmlFor="">Amount to give: </label>
-            <input type="number" onChange={(e) => setAmount(parseInt(e.target.value))} value={amount}/>
+            <input onChange={(e) => {
+              
+              setAmount(e.target.value)
+              }} value={amount}/>
             <br />
             <br />
 
@@ -77,9 +80,9 @@ function StudentsPrompt({reference, teacherName}: StudentsPromptProps){
             : <button className="actionBtn" onClick={async () => {
 
                   setIsGiving(true);
-                  await addTigerBucks(students[selectedStudent].id, amount, teacherName);
+                  await addTigerBucks(students[selectedStudent].id, parseInt(amount), teacherName);
                   setIsGiving(false);
-                  setAmount(0);
+                  setAmount("");
                   setSelectedGrade(-1);
                   setSelectedStudent(-1);
                   setStudents([]);
